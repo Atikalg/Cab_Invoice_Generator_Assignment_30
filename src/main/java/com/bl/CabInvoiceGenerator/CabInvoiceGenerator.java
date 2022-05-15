@@ -15,6 +15,11 @@ package com.bl.CabInvoiceGenerator;
  * Step 2 :- Multiple Ride
  *          - The invoice generator should now take in multiple rides, and calculate the aggregate
  *            total for all
+ *            Step 3 :- Enhanced Invoice
+ *           - The invoice generator should now return the following as a part of the invoice-
+ *           - Total Number Of Rides
+ *           - Total Fare
+ *           - Average Fare Per Ride
  */
 public class CabInvoiceGenerator {
     /**
@@ -32,7 +37,7 @@ public class CabInvoiceGenerator {
      * @param time
      * @return total fare
      */
-    public double CalculateFare(double distance, int time) {
+    public double calculateFare(double distance, int time) {
         /**
          * formula for total fare
          */
@@ -42,6 +47,7 @@ public class CabInvoiceGenerator {
         }
         return totalFare;
     }
+
     /**
      * Creating a parameterized method name as calculateFareForMultipleRides
      * Take a multiple ride and calculate the aggregate total for all
@@ -49,11 +55,24 @@ public class CabInvoiceGenerator {
      * @return total fare
      */
     public double calculateFareForMultipleRides(Ride[] rides) {
+        // variable
         double totalFare = 0.0;
         for (Ride ride : rides) {
-            totalFare = CalculateFare(ride.getDistance(), ride.getTime());
+            totalFare = calculateFare(ride.getDistance(), ride.getTime());
         }
         return totalFare;
+    }
+    /**
+     *
+     * @param rides
+     * @return
+     */
+    public InvoiceSummary invoiceSummaryCalculation(Ride[] rides) {
+        double totalFare = 0.0;
+        for (Ride ride : rides) {
+            totalFare += calculateFare(ride.getDistance(), ride.getTime());
+        }
+        return new InvoiceSummary(rides.length, totalFare);
     }
     /**
      * create a main method ,all program execute in main method
@@ -61,6 +80,6 @@ public class CabInvoiceGenerator {
      */
     public static void main(String[] args) {
         CabInvoiceGenerator cabInvoiceGenerator = new CabInvoiceGenerator();
-        System.out.println(cabInvoiceGenerator.CalculateFare(5, 20) + " Rs");
+        System.out.println(cabInvoiceGenerator.calculateFare(5, 20) + " Rs");
     }
 }
